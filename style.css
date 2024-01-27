@@ -44,3 +44,9 @@ header{
     font-weight: 900;  
     text-shadow: rgb(255, 255, 255) 3px 0 10px;
 }
+
+.player{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
