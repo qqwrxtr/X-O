@@ -1,6 +1,8 @@
 let counter = 0;
 let blocks = document.querySelectorAll(".block");
 let gameWon = false;
+let wintxt = document.getElementById("winner");
+wintxt.style.display = "none";
 
 function attachClickEventListeners() {
     blocks.forEach(function (block) {
@@ -12,7 +14,7 @@ function clickHandler() {
     if (!gameWon) {
         let add = this;
 
-        if (counter <= 8) {
+        if (counter < 9) {
             if (!this.querySelector('p')) {
                 var blockid = this.id;
 
@@ -33,16 +35,20 @@ function clickHandler() {
                 const winner = checkWinner();
 
                 if (winner) {
-                    console.log(`Player ${winner} wins!`);
+                    wintxt.style.display = "block";
+                    wintxt.innerHTML = `Player ${winner} wins!`;
+                    gameWon = true;
+                    disableClicks();
+                }
+
+                if (counter === 9 && !checkWinner()) {
+                    turnEverythingYellow();
+                    wintxt.style.display = "block";
+                    wintxt.innerHTML = `Nobody wins :)`;
                     gameWon = true;
                     disableClicks();
                 }
             }
-        } else {
-            console.log("Nobody wins :)");
-            turnEverythingRed();
-            gameWon = true;
-            disableClicks();
         }
     }
 }
@@ -111,13 +117,13 @@ function checkDiagonals() {
 
 function displayWinningCombination(...elements) {
     elements.forEach(element => {
-        element.style.color = 'red';
+        element.style.color = 'yellow';
     });
 }
 
-function turnEverythingRed() {
+function turnEverythingYellow() {
     document.querySelectorAll('.block').forEach(function (element) {
-        element.style.color = 'red';
+        element.style.color = 'yellow';
     });
 }
 
@@ -151,4 +157,6 @@ let reset = document.getElementById('reset');
 reset.addEventListener('click', function () {
     resetGame();
     attachClickEventListeners();
+    wintxt.innerHTML = " ";
+    wintxt.style.display = "none";
 });
